@@ -3,114 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vijaya Scanning Center - Invoice</title>
+    <title>Vijaya Scanning Center - A5 Invoice</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Single Professional Font Stack */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             color: #000;
         }
 
-        /* A4 Page Formatting with Edges and Borders */
         @media print {
             .no-print { display: none !important; }
             body { background: white; padding: 0; margin: 0; }
             
+            /* Half A4 (A5 Landscape) Dimensions */
             .receipt-container { 
                 width: 210mm; 
-                height: 297mm; 
-                padding: 15mm; /* Space from edges */
+                height: 148mm; 
+                padding: 8mm; 
                 margin: 0 auto;
                 box-sizing: border-box;
+                page-break-after: always;
             }
-
             .outer-border {
-                border: 2px solid #000;
+                border: 1px solid #000;
                 height: 100%;
-                padding: 20px;
+                padding: 10px;
                 display: flex;
                 flex-direction: column;
                 box-sizing: border-box;
             }
-
-            @page { size: A4; margin: 0; }
+            /* Setting the printer to A5 Landscape */
+            @page { size: 210mm 148mm; margin: 0; }
         }
 
         /* Screen Preview Styling */
         .receipt-container {
             width: 210mm;
-            min-height: 297mm;
-            padding: 15mm;
+            height: 148mm;
+            padding: 10mm;
             background: white;
             margin: 20px auto;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            box-sizing: border-box;
         }
 
         .outer-border {
-            border: 2px solid #000;
-            padding: 25px;
-            min-height: calc(297mm - 30mm - 50px);
+            border: 1px solid #000;
+            padding: 15px;
+            height: 100%;
             display: flex;
             flex-direction: column;
         }
 
-        /* Table Styling */
         .medical-table { width: 100%; border-collapse: collapse; }
         .medical-table th, .medical-table td {
-            border: 1px solid #000;
-            padding: 10px;
-            font-size: 14px;
+            border-bottom: 1px solid #ddd;
+            padding: 5px 8px;
+            font-size: 11px;
         }
-        .medical-table th { background-color: #f2f2f2; font-weight: bold; font-size: 11px; text-transform: uppercase; }
+        .medical-table th { text-align: left; font-weight: bold; text-transform: uppercase; border-bottom: 1.5px solid #000; }
         
-        .patient-box { border: 1px solid #000; width: 50%; padding: 0; margin-bottom: 25px; }
-        .box-header { background: #f2f2f2; border-bottom: 1px solid #000; padding: 3px 8px; font-size: 10px; font-weight: bold; }
-        .box-content { padding: 8px; font-size: 13px; }
+        .label-text { font-size: 11px; font-weight: 600; min-width: 80px; display: inline-block; }
+        .value-text { font-size: 11px; }
 
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     </style>
 </head>
-<body class="bg-slate-100 p-4">
+<body class="bg-slate-50 p-4">
 
-    <div class="no-print max-w-[1000px] mx-auto mb-8 bg-white p-6 rounded shadow-lg border-t-4 border-slate-800">
-        <h2 class="font-bold text-lg mb-4 border-b">Invoice Entry Panel</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="space-y-3">
-                <input type="date" id="billDate" oninput="sync()" class="w-full border p-2 rounded">
+    <div class="no-print max-w-[1100px] mx-auto mb-6 bg-white p-4 rounded shadow border-t-4 border-blue-900">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="space-y-2">
+                <input type="text" id="fName" placeholder="Patient Name" class="w-full border p-2 text-sm rounded" oninput="sync()">
                 <div class="flex gap-2">
-                    <input type="text" id="fName" placeholder="First Name" class="w-1/2 border p-2 rounded" oninput="sync()">
-                    <input type="text" id="lName" placeholder="Last Name" class="w-1/2 border p-2 rounded" oninput="sync()">
-                </div>
-                <div class="flex gap-2">
-                    <input type="number" id="age" min="0" max="99" placeholder="Age" class="w-1/2 border p-2 rounded" oninput="sync()">
-                    <select id="sex" oninput="sync()" class="w-1/2 border p-2 rounded">
+                    <input type="number" id="age" placeholder="Age" class="w-1/2 border p-2 text-sm rounded" oninput="sync()">
+                    <select id="sex" oninput="sync()" class="w-1/2 border p-2 text-sm rounded">
                         <option value="Female">Female</option>
                         <option value="Male">Male</option>
                     </select>
                 </div>
+                <input type="text" id="mobile" placeholder="Mobile Number" class="w-full border p-2 text-sm rounded" oninput="sync()">
             </div>
-            <div class="space-y-3 bg-slate-50 p-3 rounded border">
-                <input list="fetalScans" id="scanName" placeholder="Scanning Name" class="w-full border p-2 rounded">
+            <div class="space-y-2">
+                <input type="text" id="mrNo" placeholder="MR No" class="w-full border p-2 text-sm rounded" oninput="sync()">
+                <input type="text" id="doctor" placeholder="Doctor Name" class="w-full border p-2 text-sm rounded" oninput="sync()">
+                <input type="date" id="billDate" oninput="sync()" class="w-full border p-2 text-sm rounded">
+            </div>
+            <div class="space-y-2 bg-slate-50 p-2 rounded border">
+                <input list="fetalScans" id="scanName" placeholder="Scan Name" class="w-full border p-2 text-sm rounded">
                 <datalist id="fetalScans">
-                    <option value="Early Pregnancy Scan">
-                    <option value="NT Scan (Nuchal Translucency)">
-                    <option value="TIFFA Scan (Anomaly Scan)">
-                    <option value="Growth Scan">
-                    <option value="Fetal Doppler Study">
-                    <option value="Fetal Echocardiogram">
-                    <option value="Follicular Study">
+                    <option value="Early Pregnancy Scan"><option value="NT Scan"><option value="TIFFA Scan">
+                    <option value="Growth Scan"><option value="Fetal Echo"><option value="Follicular Study">
                 </datalist>
                 <div class="flex gap-2">
-                    <input type="number" id="scanPrice" placeholder="Price (₹)" class="w-full border p-2 rounded font-bold">
-                    <button onclick="addItem()" class="bg-slate-800 text-white px-4 rounded font-bold">+</button>
+                    <input type="number" id="scanPrice" placeholder="Price" class="w-full border p-2 text-sm rounded">
+                    <button onclick="addItem()" class="bg-blue-800 text-white px-3 rounded">+</button>
                 </div>
+                <select id="payMode" oninput="sync()" class="w-full border p-2 text-sm rounded">
+                    <option value="Cash">Cash</option><option value="UPI">UPI</option><option value="Card">Card</option>
+                </select>
             </div>
-            <div class="space-y-2 text-xs">
-                <input type="text" id="cIn" oninput="sync()" value="VIJAYA SCANNING CENTER" class="w-full border-b font-bold uppercase">
-                <textarea id="aIn" oninput="sync()" class="w-full border-b h-12">Opp Pillar no.21, Medchal Main Road, Below Oxyvision</textarea>
-                <input type="text" id="pIn" oninput="sync()" value="8074900722" class="w-full border-b">
-                <button onclick="window.print()" class="w-full mt-2 bg-green-700 text-white py-2 rounded font-bold uppercase">Print Invoice</button>
+            <div class="space-y-2">
+                <input type="text" id="cIn" oninput="sync()" value="VIJAYA SCANNING CENTER" class="w-full border-b font-bold text-xs">
+                <input type="text" id="aIn" oninput="sync()" value="Plot No. 2&3, Medchal - 501 401" class="w-full border-b text-[10px]">
+                <button onclick="window.print()" class="w-full mt-2 bg-green-700 text-white py-2 rounded font-bold uppercase text-xs">Print Half-Page Bill</button>
             </div>
         </div>
     </div>
@@ -118,29 +114,27 @@
     <div id="receipt" class="receipt-container">
         <div class="outer-border">
             
-            <div class="flex justify-between items-start mb-8">
-                <div>
-                    <h1 class="text-2xl font-bold" id="resCenter">VIJAYA SCANNING CENTER</h1>
-                    <div class="text-[11px] mt-1">
-                        <p id="resAddr">Opp Pillar no.21, Medchal Main Road, Below Oxyvision</p>
-                        <p>Ph: <span id="resPhone">8074900722</span></p>
-                    </div>
+            <div class="flex justify-between items-start mb-2">
+                <div class="w-2/3">
+                    <h1 class="text-xl font-bold tracking-tight" id="resCenter">VIJAYA SCANNING CENTER</h1>
+                    <p class="text-[10px] text-gray-700" id="resAddr">Plot No. 2&3, Medchal - 501 401</p>
+                    <p class="text-[10px]">Ph: 8074900722</p>
                 </div>
                 <div class="text-right">
-                    <h1 class="text-4xl font-bold tracking-tighter">INVOICE</h1>
-                    <div class="text-[12px] mt-2 font-semibold">
-                        <p>DATE: <span id="resDate">---</span></p>
-                        <p>INVOICE #: <span id="resSerial">---</span></p>
-                    </div>
+                    <h2 class="text-xs font-bold border-b border-black mb-1 px-1">RADIOLOGY DETAILS</h2>
                 </div>
             </div>
 
-            <div class="patient-box">
-                <div class="box-header uppercase tracking-wider">Patient Details:</div>
-                <div class="box-content">
-                    <p><span class="inline-block w-20 font-bold text-[10px] uppercase">Name:</span> <span id="resName" class="font-bold uppercase text-sm">---</span></p>
-                    <p><span class="inline-block w-20 font-bold text-[10px] uppercase">Age / Sex:</span> <span id="resAgeSex">---</span></p>
-                    <p><span class="inline-block w-20 font-bold text-[10px] uppercase">Location:</span> Hyderabad, Telangana</p>
+            <div class="grid grid-cols-2 gap-x-4 mb-2 border-y border-black py-2">
+                <div class="space-y-0.5">
+                    <p><span class="label-text">Patient Name</span><span class="value-text">: <span id="resName" class="font-bold uppercase">---</span></span></p>
+                    <p><span class="label-text">Mobile</span><span class="value-text">: <span id="resMobile">---</span></span></p>
+                    <p><span class="label-text">Doctor</span><span class="value-text">: <span id="resDoctor" class="uppercase">---</span></span></p>
+                </div>
+                <div class="space-y-0.5">
+                    <p><span class="label-text">Age / Gender</span><span class="value-text">: <span id="resAgeSex">---</span></span></p>
+                    <p><span class="label-text">Invoice No</span><span class="value-text">: <span id="resSerial">---</span></span></p>
+                    <p><span class="label-text">Date</span><span class="value-text">: <span id="resDate">---</span></span></p>
                 </div>
             </div>
 
@@ -148,66 +142,55 @@
                 <table class="medical-table">
                     <thead>
                         <tr>
-                            <th class="w-32">Dt of Service</th>
-                            <th>Description</th>
-                            <th class="w-32 text-right">Amount (₹)</th>
+                            <th class="w-10">S.No</th>
+                            <th>Test Name</th>
+                            <th class="text-right w-24">Cost (Rs)</th>
                         </tr>
                     </thead>
-                    <tbody id="tableBody">
-                        </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="2" class="text-right font-bold bg-gray-50 uppercase text-[10px]">Grand Total</td>
-                            <td id="resTotal" class="text-right font-bold text-lg">₹0.00</td>
-                        </tr>
-                    </tfoot>
+                    <tbody id="tableBody"></tbody>
                 </table>
             </div>
 
-            <div class="mt-8">
-                <div class="grid grid-cols-2 gap-8 items-end">
-                    <div class="border border-black p-2 h-20 text-[10px] italic text-gray-400 relative">
-                        <div class="absolute top-0 left-0 bg-gray-100 border-r border-b border-black px-2 font-bold not-italic text-black">NOTES</div>
-                        <p class="mt-4">Computer generated record. No signature required.</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="w-48 mx-auto border-t border-black pt-1">
-                            <p class="text-[10px] font-bold uppercase tracking-widest">Authorized Signatory</p>
-                        </div>
-                    </div>
+            <div class="mt-2 flex justify-between items-start pt-2 border-t border-black">
+                <div class="w-1/2 space-y-0.5 text-[11px] font-bold leading-tight">
+                    <p>Total Amount (Rs): <span id="resTotal1">0</span></p>
+                    <p class="text-[10px]">Words: <span id="resWords" class="uppercase">---</span></p>
                 </div>
-                <div class="mt-10 bg-gray-100 py-1 text-center border-y border-black">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.5em]">Thank You</p>
+                <div class="w-2/5 border border-black p-1.5 text-[10px] space-y-0.5">
+                    <div class="flex justify-between border-b border-dotted pb-0.5"><span>Sub Total</span><span id="summSub">0</span></div>
+                    <div class="flex justify-between font-bold"><span>Mode / Paid</span><span id="summPaid">Cash / 0</span></div>
                 </div>
             </div>
 
+            <div class="mt-4 flex justify-between items-end">
+                <span class="text-[8px] italic text-gray-500">Computer Generated Invoice</span>
+                <div class="border-t border-black w-32 text-center text-[10px] font-bold uppercase py-1">
+                    Signature
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         let items = [];
-        window.onload = () => {
-            document.getElementById('billDate').value = new Date().toISOString().split('T')[0];
-            sync();
-            updateTable();
-        };
-
+        
         function sync() {
             document.getElementById('resCenter').innerText = document.getElementById('cIn').value;
             document.getElementById('resAddr').innerText = document.getElementById('aIn').value;
-            document.getElementById('resPhone').innerText = document.getElementById('pIn').value;
-            const name = `${document.getElementById('fName').value} ${document.getElementById('lName').value}`.trim();
-            document.getElementById('resName').innerText = name || "---";
+            document.getElementById('resName').innerText = document.getElementById('fName').value || "---";
+            document.getElementById('resMobile').innerText = document.getElementById('mobile').value || "---";
+            document.getElementById('resDoctor').innerText = document.getElementById('doctor').value || "---";
             document.getElementById('resAgeSex').innerText = `${document.getElementById('age').value || '--'}Y / ${document.getElementById('sex').value}`;
+            
             const d = document.getElementById('billDate').value;
-            if(d) document.getElementById('resDate').innerText = new Date(d).toLocaleDateString('en-US', {month:'short', day:'2-digit', year:'numeric'});
+            if(d) document.getElementById('resDate').innerText = new Date(d).toLocaleDateString('en-GB');
         }
 
         function addItem() {
             const n = document.getElementById('scanName').value;
             const p = parseFloat(document.getElementById('scanPrice').value);
             if(!n || isNaN(p)) return;
-            items.push({ name: n, price: p, date: document.getElementById('billDate').value });
+            items.push({ name: n, price: p });
             document.getElementById('scanName').value = "";
             document.getElementById('scanPrice').value = "";
             updateTable();
@@ -217,18 +200,37 @@
             const tbody = document.getElementById('tableBody');
             let total = 0;
             tbody.innerHTML = "";
-            items.forEach((item) => {
-                const ds = new Date(item.date).toLocaleDateString('en-US', {month:'short', day:'d', year:'2-digit'});
-                tbody.innerHTML += `<tr><td class="text-center font-mono text-xs uppercase">${ds}</td><td class="font-bold uppercase text-xs">${item.name}</td><td class="text-right font-bold">₹${item.price.toLocaleString('en-IN', {minimumFractionDigits: 2})}</td></tr>`;
+            items.forEach((item, index) => {
+                tbody.innerHTML += `<tr><td>${index + 1}</td><td class="font-bold">${item.name}</td><td class="text-right">${item.price.toFixed(2)}</td></tr>`;
                 total += item.price;
             });
-            for(let i=items.length; i<10; i++) { tbody.innerHTML += `<tr><td class="py-4">&nbsp;</td><td></td><td></td></tr>`; }
-            document.getElementById('resTotal').innerText = "₹" + total.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            
+            const pay = document.getElementById('payMode').value;
+            document.getElementById('resTotal1').innerText = total.toLocaleString('en-IN');
+            document.getElementById('summSub').innerText = total.toLocaleString('en-IN');
+            document.getElementById('summPaid').innerText = pay + " / " + total.toLocaleString('en-IN');
+            document.getElementById('resWords').innerText = numberToWords(total) + " RUPEES ONLY";
         }
 
-        // Generate serial only on print
+        function numberToWords(num) {
+            const a = ['','ONE ','TWO ','THREE ','FOUR ','FIVE ','SIX ','SEVEN ','EIGHT ','NINE ','TEN ','ELEVEN ','TWELVE ','THIRTEEN ','FOURTEEN ','FIFTEEN ','SIXTEEN ','SEVENTEEN ','EIGHTEEN ','NINETEEN '];
+            const b = ['', '', 'TWENTY','THIRTY','FORTY','FIFTY','SIXTY','SEVENTY','EIGHTY','NINETY'];
+            let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+            if (!n) return ''; 
+            let str = '';
+            str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'THOUSAND ' : '';
+            str += (n[4] != 0) ? a[Number(n[4])] + 'HUNDRED ' : '';
+            str += (n[5] != 0) ? ((str != '') ? 'AND ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+            return str.trim();
+        }
+
         window.onbeforeprint = () => {
-            document.getElementById('resSerial').innerText = "VJ-" + Date.now().toString().slice(-6);
+            document.getElementById('resSerial').innerText = "OP-" + Date.now().toString().slice(-6);
+        };
+
+        window.onload = () => {
+            document.getElementById('billDate').value = new Date().toISOString().split('T')[0];
+            sync();
         };
     </script>
 </body>
