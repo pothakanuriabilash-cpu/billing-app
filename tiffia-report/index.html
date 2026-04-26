@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIFFA Report - Professional Entry</title>
+    <style>
+        :root {
+            --accent-brown: #a1887f;
+            --soft-bg: #efebe9;
+            --input-border: #d7ccc8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #d7ccc8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .page {
+            background-color: white;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            padding: 10mm 20mm;
+            box-sizing: border-box;
+            box-shadow: 0 0 20px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .letterhead-space { height: 45mm; flex-shrink: 0; }
+        .footer-space { height: 50mm; margin-top: auto; flex-shrink: 0; }
+
+        /* Stylish Interactive Inputs */
+        input, select {
+            border: 1.5px solid var(--accent-brown);
+            background-color: var(--soft-bg);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            outline: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        input:focus { 
+            background-color: #fff; 
+            border-color: #5d4037;
+            box-shadow: 0 0 5px rgba(141, 110, 99, 0.3);
+        }
+
+        /* Styling for number "scrollers" */
+        input[type="number"] {
+            -moz-appearance: textfield;
+            cursor: ns-resize;
+        }
+
+        .patient-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .report-title {
+            text-align: center;
+            text-decoration: underline;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 15px 0 10px 0;
+            color: #3e2723;
+        }
+
+        .limitations-text {
+            font-size: 10px;
+            line-height: 1.3;
+            text-align: justify;
+            margin-bottom: 15px;
+            color: #5d4037;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        th, td { border: 1px solid black; padding: 6px; text-align: left; font-size: 13px; }
+        .label { font-weight: bold; width: 250px; display: inline-block; margin: 6px 0; }
+        
+        .no-print {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--accent-brown);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        button {
+            background-color: #5d4037;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 6px;
+            width: 100%;
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background: none; padding: 0; }
+            .page { box-shadow: none; margin: 0; width: 100%; height: 297mm; }
+            input, select { border: none !important; background: none !important; padding: 0 !important; appearance: none; }
+            input[type="date"]::-webkit-calendar-picker-indicator { display: none; }
+            @page { size: A4; margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="no-print">
+    <button onclick="window.print()">PRINT REPORT</button>
+</div>
+
+<div class="page">
+    <div class="letterhead-space"></div>
+
+    <div class="patient-row">
+        <span>NAME : <input type="text" value="MRS.MAMATHA" style="width: 220px;"></span>
+        <span>AGE : <input type="number" value="21" style="width: 50px;"> Years</span>
+        <span>SEX : <select><option>Female</option><option>Male</option></select></span>
+        <span>DATE : <input type="date" id="todayDate"></span>
+    </div>
+    
+    <div class="patient-row">
+        <span>REF : <input type="text" value="RAJU HOSP, MDCL" style="width: 300px;"></span>
+    </div>
+
+    <div class="report-title">TIFFA ULTRA SOUND SCAN</div>
+
+    <div class="limitations-text">
+        LIMITATIONS: Accuracy of scan is only 70% due to various technical reasons (like gestational age, amount of liquor, fetal position and fetal movements and maternal abdominal wall thickness) For complete evaluation of fetal heart, 2d echo is suggested All chromosomal anomalies and genetical syndrome cannot be ruled out<br><br>
+        Certain anomalies like cranio-synostosis CPAM abnominal and Intracranial masses, bowel dialatation manifestations of vascular insults like ventriculo malacia, amniotic band syndrome and manifestations of Infections like parvo, toxoplasmosis etc can appear in 3d trimester<br><br>
+        Even in the best of hands, a small percentage of fetal anomalles will remain undetected Internationally accepted detection rate of major abnormalities Is around 70% Hence we are not responsible for any claims I understand that the sex of fetus will not be disclosed by me
+    </div>
+
+    <p style="font-weight: bold;">A SINGLE INTRAUTERINE LIVE FETUS IS SEEN .</p>
+
+    <table>
+        <tr>
+            <th>DATING</th>
+            <th>LMP / USG</th>
+            <th>GA</th>
+            <th>EDD</th>
+        </tr>
+        <tr>
+            <td><b>LMP</b></td>
+            <td><input type="date" value="2025-03-08"></td>
+            <td><input type="number" value="20" style="width: 45px;"> weeks <input type="number" value="2" style="width: 40px;"> days</td>
+            <td><input type="date" value="2025-12-15"></td>
+        </tr>
+        <tr>
+            <td><b>USG</b></td>
+            <td><input type="text" value="E.SCAN" style="width: 80px;"></td>
+            <td><input type="number" value="20" style="width: 45px;"> weeks <input type="number" value="3" style="width: 40px;"> days</td>
+            <td><input type="date" value="2025-12-14"></td>
+        </tr>
+        <tr>
+            <td><b>AGREED EDD</b></td>
+            <td><input type="text" value="BASED ON LMP" style="width: 100px;"></td>
+            <td><input type="number" value="20" style="width: 45px;"> weeks <input type="number" value="2" style="width: 40px;"> days</td>
+            <td><input type="date" value="2025-12-15"></td>
+        </tr>
+    </table>
+
+    <div style="font-weight: bold; margin: 15px 0 10px 0;">
+        AVERAGE ULTRASOUND AGE (AUA): <input type="number" value="20" style="width: 45px;"> weeks <input type="number" value="4" style="width: 40px;"> days ; 
+        EDD BASED ON AUA : <input type="date" value="2025-12-13">
+    </div>
+
+    <div style="font-weight: bold;">FETAL BIOMETRY :</div>
+    <table>
+        <tr>
+            <td style="width: 30%;"><b>BPD</b></td>
+            <td><input type="number" step="0.01" value="4.77" style="width: 60px;"> CM</td>
+            <td><input type="number" value="20" style="width: 40px;"> weeks <input type="number" value="3" style="width: 40px;"> days</td>
+            <td><input type="number" value="55" style="width: 40px;"> %</td>
+        </tr>
+        <tr>
+            <td><b>H.C</b></td>
+            <td><input type="number" step="0.01" value="18.47" style="width: 60px;"> CM</td>
+            <td><input type="number" value="20" style="width: 40px;"> weeks <input type="number" value="6" style="width: 40px;"> days</td>
+            <td><input type="number" value="67" style="width: 40px;"> %</td>
+        </tr>
+        <tr>
+            <td><b>Abd circumference</b></td>
+            <td><input type="number" step="0.01" value="15.38" style="width: 60px;"> CM</td>
+            <td><input type="number" value="20" style="width: 40px;"> weeks <input type="number" value="4" style="width: 40px;"> days</td>
+            <td><input type="number" value="53" style="width: 40px;"> %</td>
+        </tr>
+        <tr>
+            <td><b>FFL</b></td>
+            <td><input type="number" step="0.01" value="3.20" style="width: 60px;"> CM</td>
+            <td><input type="number" value="20" style="width: 40px;"> weeks <input type="number" value="0" style="width: 40px;"> days</td>
+            <td><input type="number" value="30" style="width: 40px;"> %</td>
+        </tr>
+    </table>
+
+    <p>
+        FETAL CARDIAC PULSATIONS ARE SEEN, FHR - <input type="number" value="146" style="width: 60px;"> / B / MIN.<br>
+        FETAL BODY MOVEMENTS AND TONE NORMAL.
+    </p>
+
+    <div>
+        <div><span class="label">PLACENTA:</span> <input type="text" value="POSTERIOR LOWER SEGMENT" style="width: 350px;"></div>
+        <div><span class="label">PRESENTATION:</span> <input type="text" value="BREECH AT PRESENT" style="width: 250px;"></div>
+        <div><span class="label">LIQUOR:</span> <input type="text" value="ADEQUATE" style="width: 150px;"></div>
+        <div><span class="label">ESTIMATED FETAL WEIGHT ( EFW ):</span> <input type="number" value="347" style="width: 60px;"> GMS +/- <input type="number" value="36" style="width: 50px;"> GMS</div>
+        <div><span class="label">CERVICAL LENGTH:</span> <input type="number" value="3" style="width: 45px;"> CM <b>INTERNAL OS CLOSED</b></div>
+    </div>
+
+    <div class="footer-space"></div>
+</div>
+
+<script>
+    document.getElementById('todayDate').valueAsDate = new Date();
+</script>
+
+</body>
+</html>
