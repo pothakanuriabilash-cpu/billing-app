@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TIFFA Report</title>
+    <title>TIFFA Report - Compact Print</title>
     <style>
         :root {
             --accent-brown: #a1887f;
@@ -17,7 +17,6 @@
             padding: 10px;
         }
 
-        /* STRICT A4 CONTAINER */
         .page {
             background-color: white;
             width: 210mm;
@@ -31,9 +30,7 @@
             overflow: hidden;
         }
         
-        /* Spaces for Pre-printed Stationery */
         .letterhead-space { height: 45mm; flex-shrink: 0; }
-        /* Reduced to ~4 lines worth of height */
         .footer-space { height: 15mm; margin-top: auto; flex-shrink: 0; }
 
         input, select {
@@ -75,6 +72,48 @@
         th, td { border: 1px solid black; padding: 6px; text-align: left; font-size: 13px; }
         th { background: #f9f9f9; font-size: 12px; }
 
+        /* Biometry Graph Styles */
+        .biometry-table td { padding: 4px 8px; vertical-align: middle; }
+        .graph-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 180px;
+        }
+        .whisker-line {
+            position: relative;
+            width: 100px;
+            height: 1px;
+            background: black;
+        }
+        .whisker-line::before, .whisker-line::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            width: 1px;
+            height: 10px;
+            background: black;
+        }
+        .whisker-line::after { right: 0; }
+        .whisker-line .mid-tick {
+            position: absolute;
+            top: -3px;
+            left: 50%;
+            width: 1px;
+            height: 6px;
+            background: black;
+        }
+        .dot {
+            position: absolute;
+            top: -4px;
+            width: 8px;
+            height: 8px;
+            background: black;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            transition: left 0.3s ease;
+        }
+
         .label { font-weight: bold; width: 240px; display: inline-block; margin: 5px 0; }
         
         .no-print {
@@ -103,14 +142,15 @@
             body { background: none; padding: 0; }
             .page { box-shadow: none; margin: 0; width: 210mm; height: 297mm; padding: 0 15mm; }
             input, select { border: none !important; background: none !important; padding: 0 !important; appearance: none; }
+            .whisker-line { -webkit-print-color-adjust: exact; }
             @page { size: A4; margin: 0; }
         }
     </style>
 </head>
 <body>
 
-<div class="no-print">
-    <button onclick="window.print()">PRINT REPORT</button>
+    <div class="no-print">
+        <button onclick="window.print()">PRINT REPORT</button>
 </div>
 
 <div class="page">
@@ -130,9 +170,7 @@
     <div class="report-title">TIFFA ULTRA SOUND SCAN</div>
 
     <div class="limitations-text">
-        LIMITATIONS: Accuracy of scan is only 70% due to various technical reasons (like gestational age, amount of liquor, fetal position and fetal movements and maternal abdominal wall thickness) For complete evaluation of fetal heart, 2d echo is suggested All chromosomal anomalies and genetical syndrome cannot be ruled out.<br><br>
-        Certain anomalies like cranio-synostosis CPAM abnominal and Intracranial masses, bowel dialatation manifestations of vascular insults like ventriculo malacia, amniotic band syndrome and manifestations of Infections like parvo, toxoplasmosis etc can appear in 3d trimester.<br><br>
-        Even in the best of hands, a small percentage of fetal anomalles will remain undetected Internationally accepted detection rate of major abnormalities Is around 70% Hence we are not responsible for any claims I understand that the sex of fetus will not be disclosed by me.
+        LIMITATIONS: Accuracy of scan is only 70% due to various technical reasons (like gestational age, amount of liquor, fetal position and fetal movements and maternal abdominal wall thickness) For complete evaluation of fetal heart, 2d echo is suggested All chromosomal anomalies and genetical syndrome cannot be ruled out. Certain anomalies like cranio-synostosis CPAM abnominal and Intracranial masses, bowel dialatation manifestations of vascular insults like ventriculo malacia, amniotic band syndrome and manifestations of Infections like parvo, toxoplasmosis etc can appear in 3d trimester. Even in the best of hands, a small percentage of fetal anomalles will remain undetected Internationally accepted detection rate of major abnormalities Is around 70% Hence we are not responsible for any claims I understand that the sex of fetus will not be disclosed by me.
     </div>
 
     <p style="font-weight: bold; margin-bottom: 5px;">A SINGLE INTRAUTERINE LIVE FETUS IS SEEN .</p>
@@ -147,53 +185,93 @@
         <tr>
             <td><b>LMP</b></td>
             <td><input type="date" value="2025-03-08"></td>
-            <td><input type="number" value="20" style="width: 40px;"> weeks <input type="number" value="2" style="width: 35px;"> days</td>
+            <td><input type="number" value="20" style="width: 40px;"> w <input type="number" value="2" style="width: 35px;"> d</td>
             <td><input type="date" value="2025-12-15"></td>
         </tr>
         <tr>
             <td><b>USG</b></td>
             <td><input type="text" value="E.SCAN" style="width: 80px;"></td>
-            <td><input type="number" value="20" style="width: 40px;"> weeks <input type="number" value="3" style="width: 35px;"> days</td>
+            <td><input type="number" value="20" style="width: 40px;"> w <input type="number" value="3" style="width: 35px;"> d</td>
             <td><input type="date" value="2025-12-14"></td>
         </tr>
         <tr>
             <td><b>AGREED EDD</b></td>
             <td><input type="text" value="BASED ON LMP" style="width: 100px;"></td>
-            <td><input type="number" value="20" style="width: 40px;"> weeks <input type="number" value="2" style="width: 35px;"> days</td>
+            <td><input type="number" value="20" style="width: 40px;"> w <input type="number" value="2" style="width: 35px;"> d</td>
             <td><input type="date" value="2025-12-15"></td>
         </tr>
     </table>
 
-    <div style="font-weight: bold; margin: 15px 0 10px 0;">
-        AVERAGE ULTRASOUND AGE (AUA): <input type="number" value="20" style="width: 40px;"> weeks <input type="number" value="4" style="width: 35px;"> days ; 
+    <div style="font-weight: bold; margin: 10px 0;">
+        AVERAGE ULTRASOUND AGE (AUA): <input type="number" value="20" style="width: 40px;"> w <input type="number" value="4" style="width: 35px;"> d ; 
         EDD BASED ON AUA : <input type="date" value="2025-12-13">
     </div>
 
-    <div style="font-weight: bold;">FETAL BIOMETRY :</div>
-    <table>
+    <div style="font-weight: bold;">Biometry (Mediscan, Unit: mm) :</div>
+    <table class="biometry-table">
         <tr>
-            <td style="width: 30%;"><b>BPD</b></td>
-            <td><input type="number" step="0.01" value="4.77" style="width: 60px;"> CM</td>
-            <td><input type="number" value="20" style="width: 40px;"> weeks <input type="number" value="3" style="width: 35px;"> days</td>
-            <td><input type="number" value="55" style="width: 40px;"> %</td>
+            <td style="width: 10%;"><b>BPD</b></td>
+            <td style="width: 40%;">
+                <input type="number" step="0.1" value="49.4" style="width: 60px;"> , 
+                <input type="number" value="20" style="width: 35px;">Weeks <input type="number" value="3" style="width: 30px;">Days
+            </td>
+            <td>
+                <div class="graph-container">
+                    <div class="whisker-line">
+                        <div class="mid-tick"></div>
+                        <div class="dot" id="dot-bpd" style="left: 20%;"></div>
+                    </div>
+                    (<input type="number" value="20" style="width: 35px;" oninput="updateDot('bpd', this.value)">%)
+                </div>
+            </td>
         </tr>
         <tr>
-            <td><b>H.C</b></td>
-            <td><input type="number" step="0.01" value="18.47" style="width: 60px;"> CM</td>
-            <td><input type="number" value="20" style="width: 40px;"> weeks <input type="number" value="6" style="width: 35px;"> days</td>
-            <td><input type="number" value="67" style="width: 40px;"> %</td>
+            <td><b>HC</b></td>
+            <td>
+                <input type="number" step="0.1" value="183.3" style="width: 60px;"> , 
+                <input type="number" value="21" style="width: 35px;">Weeks <input type="number" value="3" style="width: 30px;">Days
+            </td>
+            <td>
+                <div class="graph-container">
+                    <div class="whisker-line">
+                        <div class="mid-tick"></div>
+                        <div class="dot" id="dot-hc" style="left: 40%;"></div>
+                    </div>
+                    (<input type="number" value="40" style="width: 35px;" oninput="updateDot('hc', this.value)">%)
+                </div>
+            </td>
         </tr>
         <tr>
-            <td><b>Abd circumference</b></td>
-            <td><input type="number" step="0.01" value="15.38" style="width: 60px;"> CM</td>
-            <td><input type="number" value="20" style="width: 40px;"> weeks <input type="number" value="4" style="width: 35px;"> days</td>
-            <td><input type="number" value="53" style="width: 40px;"> %</td>
+            <td><b>AC</b></td>
+            <td>
+                <input type="number" step="0.1" value="156.3" style="width: 60px;"> , 
+                <input type="number" value="20" style="width: 35px;">Weeks <input type="number" value="6" style="width: 30px;">Days
+            </td>
+            <td>
+                <div class="graph-container">
+                    <div class="whisker-line">
+                        <div class="mid-tick"></div>
+                        <div class="dot" id="dot-ac" style="left: 35%;"></div>
+                    </div>
+                    (<input type="number" value="35" style="width: 35px;" oninput="updateDot('ac', this.value)">%)
+                </div>
+            </td>
         </tr>
         <tr>
-            <td><b>FFL</b></td>
-            <td><input type="number" step="0.01" value="3.20" style="width: 60px;"> CM</td>
-            <td><input type="number" value="20" style="width: 40px;"> weeks <input type="number" value="0" style="width: 35px;"> days</td>
-            <td><input type="number" value="30" style="width: 40px;"> %</td>
+            <td><b>FL</b></td>
+            <td>
+                <input type="number" step="0.1" value="30.9" style="width: 60px;"> , 
+                <input type="number" value="19" style="width: 35px;">Weeks <input type="number" value="1" style="width: 30px;">Days
+            </td>
+            <td>
+                <div class="graph-container">
+                    <div class="whisker-line">
+                        <div class="mid-tick"></div>
+                        <div class="dot" id="dot-fl" style="left: 2%;"></div>
+                    </div>
+                    (<input type="number" value="2" style="width: 35px;" oninput="updateDot('fl', this.value)">%)
+                </div>
+            </td>
         </tr>
     </table>
 
@@ -215,6 +293,13 @@
 
 <script>
     document.getElementById('todayDate').valueAsDate = new Date();
+
+    function updateDot(id, val) {
+        const dot = document.getElementById('dot-' + id);
+        // Ensure value is between 0 and 100 for graph display
+        let percent = Math.min(Math.max(val, 0), 100);
+        dot.style.left = percent + '%';
+    }
 </script>
 
 </body>
