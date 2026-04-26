@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vijaya Scanning Center | Digital Portal</title>
+    <title>Vijaya Scanning Center | Clinical Portal</title>
     <style>
         :root {
             --primary-blue: #004a99;
-            --accent-brown: #8d6e63;
-            --bg-light: #f8fafc;
-            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --bg-light: #f1f5f9;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             background-color: var(--bg-light);
             margin: 0;
             display: flex;
@@ -26,42 +25,28 @@
         .portal-container {
             text-align: center;
             width: 100%;
-            max-width: 1000px;
+            max-width: 1100px;
             padding: 40px 20px;
         }
 
-        .header {
-            margin-bottom: 50px;
-        }
-
-        .header h1 {
-            color: var(--primary-blue);
-            font-size: 2.5rem;
-            margin: 0;
-            letter-spacing: 1px;
-        }
-
-        .header p {
-            color: #64748b;
-            font-size: 1.1rem;
-            margin-top: 10px;
-        }
+        .header { margin-bottom: 40px; }
+        .header h1 { color: var(--primary-blue); font-size: 2.2rem; margin: 0; }
+        .header p { color: #64748b; margin-top: 8px; }
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
-            padding: 10px;
         }
 
         .tool-card {
             background: white;
-            padding: 30px 20px;
-            border-radius: 15px;
+            padding: 25px;
+            border-radius: 12px;
             text-decoration: none;
             color: inherit;
             box-shadow: var(--card-shadow);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.2s, border-color 0.2s;
             border: 1px solid #e2e8f0;
             display: flex;
             flex-direction: column;
@@ -69,51 +54,26 @@
         }
 
         .tool-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-5px);
             border-color: var(--primary-blue);
-            box-shadow: 0 20px 25px -5px rgba(0, 74, 153, 0.1);
         }
 
         .icon-circle {
-            width: 60px;
-            height: 60px;
-            background-color: #f1f5f9;
+            width: 50px;
+            height: 50px;
+            background-color: #f8fafc;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 30px;
+            font-size: 24px;
             margin-bottom: 15px;
-            transition: background-color 0.3s;
         }
 
-        .tool-card:hover .icon-circle {
-            background-color: #e0f2fe;
-        }
+        .tool-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+        .tool-desc { font-size: 0.85rem; color: #64748b; line-height: 1.4; }
 
-        .tool-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #0f172a;
-        }
-
-        .tool-desc {
-            font-size: 0.85rem;
-            color: #64748b;
-            line-height: 1.4;
-        }
-
-        .footer {
-            margin-top: 60px;
-            font-size: 0.85rem;
-            color: #94a3b8;
-        }
-
-        @media (max-width: 600px) {
-            .header h1 { font-size: 1.8rem; }
-            .menu-grid { grid-template-columns: 1fr; }
-        }
+        .footer { margin-top: 50px; font-size: 0.8rem; color: #94a3b8; }
     </style>
 </head>
 <body>
@@ -121,38 +81,48 @@
     <div class="portal-container">
         <div class="header">
             <h1>VIJAYA SCANNING CENTER</h1>
-            <p>Fetal Medicine Center | Administrative Tools Portal</p>
+            <p>Fetal Medicine Center | Digital Report Portal</p>
         </div>
         
         <div class="menu-grid">
             <a href="billing-app/index.html" class="tool-card">
                 <div class="icon-circle">🧾</div>
                 <div class="tool-name">Billing App</div>
-                <div class="tool-desc">Create and print medical bills for hospital services.</div>
+                <div class="tool-desc">Hospital billing and invoice generation.</div>
             </a>
 
             <a href="NT-report/index.html" class="tool-card">
                 <div class="icon-circle">🔍</div>
                 <div class="tool-name">NT Report</div>
-                <div class="tool-desc">1st Trimester Nuchal Translucency & Early Anatomy report.</div>
+                <div class="tool-desc">1st Trimester Nuchal Translucency & Early Anatomy.</div>
             </a>
 
             <a href="tiffa-report/index.html" class="tool-card">
                 <div class="icon-circle">👶</div>
                 <div class="tool-name">TIFFA Report</div>
-                <div class="tool-desc">Detailed 2nd Trimester Anomaly scan with centile graphs.</div>
+                <div class="tool-desc">2nd Trimester Detailed Anomaly (Level II) Scan.</div>
             </a>
 
             <a href="Growth-report/index.html" class="tool-card">
                 <div class="icon-circle">📈</div>
                 <div class="tool-name">Growth Report</div>
-                <div class="tool-desc">Late Trimester Growth, Doppler, and Biometry tracking.</div>
+                <div class="tool-desc">Late Trimester Growth Tracking & Doppler Study.</div>
+            </a>
+
+            <a href="Dating-report/index.html" class="tool-card">
+                <div class="icon-circle">📅</div>
+                <div class="tool-name">Dating Scan</div>
+                <div class="tool-desc">Early Pregnancy Confirmation & EDD Calculation.</div>
+            </a>
+
+            <a href="Wellbeing-report/index.html" class="tool-card">
+                <div class="icon-circle">🛡️</div>
+                <div class="tool-name">Fetal Wellbeing</div>
+                <div class="tool-desc">BPP (Biophysical Profile) & Liquors Assessment.</div>
             </a>
         </div>
 
-        <div class="footer">
-            © 2026 Vijaya Scanning Center | Internal Use Only
-        </div>
+        <div class="footer">© 2026 Vijaya Scanning Center</div>
     </div>
 
 </body>
