@@ -130,6 +130,7 @@
             font-family: inherit;
             font-size: inherit;
             font-weight: bold;
+            text-align: center;
         }
 
         .no-print {
@@ -177,19 +178,19 @@
     <table class="header-table">
         <tr>
             <td style="width: 15%;"><b>Patient name</b></td>
-            <td style="width: 45%;"><input type="text" value="MRS. EGBAL TAHA MOHAMMED NAEEM" style="width: 95%;"></td>
+            <td style="width: 45%;"><input type="text" value="MRS. EGBAL TAHA MOHAMMED NAEEM" style="width: 95%; text-align: left;"></td>
             <td style="width: 15%;"><b>Age/Sex</b></td>
             <td style="width: 25%;"><input type="number" value="24" style="width: 40px;"> Years / Female</td>
         </tr>
         <tr>
             <td><b>Patient ID</b></td>
-            <td><input type="text" value="2320788" style="width: 95%;"></td>
+            <td><input type="text" value="2320788" style="width: 95%; text-align: left;"></td>
             <td><b>Visit No</b></td>
-            <td><input type="number" value="1" style="width: 90%;"></td>
+            <td><input type="number" value="1" style="width: 40px;"></td>
         </tr>
         <tr>
             <td><b>Referred by</b></td>
-            <td><input type="text" value="Dr. Sarah Oosman" style="width: 95%;"></td>
+            <td><input type="text" value="Dr. Sarah Oosman" style="width: 95%; text-align: left;"></td>
             <td><b>Visit Date</b></td>
             <td><input type="date" value="2024-02-21" style="width: 90%;"></td>
         </tr>
@@ -197,8 +198,8 @@
             <td><b>LMP Date</b></td>
             <td colspan="3">
                 <input type="date" value="2023-11-04" style="width: 110px;"> 
-                &nbsp; LMP EDD: <input type="date" value="2024-08-10" style="width: 110px;"> [GA: <input type="number" value="15" style="width: 35px;">W <input type="number" value="4" style="width: 30px;">D] 
-                | C-EDD: <input type="date" value="2024-08-11" style="width: 110px;"> [GA: <input type="number" value="15" style="width: 35px;">W <input type="number" value="3" style="width: 30px;">D]
+                &nbsp; LMP EDD: <input type="date" value="2024-08-10" style="width: 110px;"> [GA: <input type="number" value="15" style="width:30px;">W <input type="number" value="4" style="width:30px;">D] 
+                | C-EDD: <input type="date" value="2024-08-11" style="width: 110px;"> [GA: <input type="number" value="15" style="width:30px;">W <input type="number" value="3" style="width:30px;">D]
             </td>
         </tr>
     </table>
@@ -261,28 +262,38 @@
     <div class="doppler-grid" style="grid-template-columns: repeat(5, 1fr);">
         <div class="doppler-box">
             <b>BPD <input type="number" step="0.1" value="31.3" style="width: 45px;"> mm</b><br>
+            <input type="number" value="15" style="width:28px;">W <input type="number" value="5" style="width:25px;">D
             <div class="whisker-line"><div class="dot" id="dot-bpd" style="left: 50%;"></div></div>
             <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
+            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('bpd', this.value)" style="width:35px;"> %</div>
         </div>
         <div class="doppler-box">
             <b>HC <input type="number" step="0.1" value="111.6" style="width: 45px;"> mm</b><br>
+            <input type="number" value="15" style="width:28px;">W <input type="number" value="0" style="width:25px;">D
             <div class="whisker-line"><div class="dot" id="dot-hc" style="left: 50%;"></div></div>
             <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
+            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('hc', this.value)" style="width:35px;"> %</div>
         </div>
         <div class="doppler-box">
             <b>AC <input type="number" step="0.1" value="94.7" style="width: 45px;"> mm</b><br>
+            <input type="number" value="15" style="width:28px;">W <input type="number" value="5" style="width:25px;">D
             <div class="whisker-line"><div class="dot" id="dot-ac" style="left: 50%;"></div></div>
             <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
+            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('ac', this.value)" style="width:35px;"> %</div>
         </div>
         <div class="doppler-box">
             <b>FL <input type="number" step="0.1" value="17.4" style="width: 45px;"> mm</b><br>
+            <input type="number" value="15" style="width:28px;">W <input type="number" value="1" style="width:25px;">D
             <div class="whisker-line"><div class="dot" id="dot-fl" style="left: 45%;"></div></div>
             <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
+            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('fl', this.value)" style="width:35px;"> %</div>
         </div>
         <div class="doppler-box">
             <b>EFW <input type="number" value="123" style="width: 50px;"> g</b><br>
+            <input type="number" value="15" style="width:28px;">W <input type="number" value="3" style="width:25px;">D
             <div class="whisker-line"><div class="dot" id="dot-efw" style="left: 50%;"></div></div>
             <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
+            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('efw', this.value)" style="width:35px;"> %</div>
         </div>
     </div>
 
@@ -323,9 +334,15 @@
 
     function updateDoppler(id, val) {
         const dot = document.getElementById('dot-' + id);
-        // Scaling 0.1 to 2.4 across 100% width
         let percent = ((val - 0.1) / (2.4 - 0.1)) * 100;
         dot.style.left = Math.min(Math.max(percent, 0), 100) + '%';
+    }
+
+    function moveDot(id, val) {
+        const dot = document.getElementById('dot-' + id);
+        if(dot) {
+            dot.style.left = Math.min(Math.max(val, 0), 100) + '%';
+        }
     }
 </script>
 
