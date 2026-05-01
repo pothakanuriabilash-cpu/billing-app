@@ -3,127 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vijaya Scanning Center | Clinical Portal</title>
+    <title>OB - 2/3 Trimester Scan Report</title>
     <style>
         :root {
-            --primary-blue: #004a99;
-            --bg-light: #f1f5f9;
-            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --accent-brown: #a1887f;
+            --soft-bg: #efebe9;
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: var(--bg-light);
+            font-family: 'Times New Roman', Times, serif;
+            background-color: #d7ccc8;
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: #1e293b;
+            padding: 10px;
         }
 
-        .portal-container {
-            text-align: center;
-            width: 100%;
-            max-width: 1100px;
-            padding: 40px 20px;
-        }
-
-        .header { margin-bottom: 40px; }
-        .header h1 { color: var(--primary-blue); font-size: 2.2rem; margin: 0; }
-        .header p { color: #64748b; margin-top: 8px; }
-
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .tool-card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            text-decoration: none;
-            color: inherit;
-            box-shadow: var(--card-shadow);
-            transition: transform 0.2s, border-color 0.2s;
-            border: 1px solid #e2e8f0;
+        .page {
+            background-color: white;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            padding: 10mm 15mm;
+            box-sizing: border-box;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
-            align-items: center;
         }
 
-        .tool-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-blue);
+        .letterhead-space { height: 45mm; flex-shrink: 0; }
+        
+        .header-table {
+            width: 100%;
+            border: 1px solid #000;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        .header-table td { border: 1px solid #000; padding: 4px 8px; }
+
+        .report-title { text-align: center; font-weight: bold; font-size: 18px; margin: 10px 0; }
+
+        .section-text { font-size: 13px; line-height: 1.4; margin-bottom: 8px; }
+        .section-title { font-weight: bold; text-decoration: underline; margin-top: 10px; display: block; }
+
+        /* Uterine Doppler Table */
+        .doppler-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border: 1px solid #000;
+            margin: 10px 0;
+        }
+        .doppler-box {
+            border: 0.5px solid #000;
+            padding: 5px;
+            text-align: center;
+            font-size: 11px;
         }
 
-        .icon-circle {
-            width: 50px;
-            height: 50px;
-            background-color: #f8fafc;
+        /* Biometry & Doppler Graphs */
+        .whisker-line {
+            position: relative;
+            width: 80%;
+            height: 1px;
+            background: black;
+            margin: 12px auto 4px auto;
+        }
+        .whisker-line::before, .whisker-line::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            width: 1px;
+            height: 8px;
+            background: black;
+        }
+        .whisker-line::after { right: 0; }
+        .dot {
+            position: absolute;
+            top: -3px;
+            width: 6px;
+            height: 6px;
+            background: black;
             border-radius: 50%;
+            transform: translateX(-50%);
+            transition: left 0.3s ease;
+        }
+        .centile-labels {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            margin-bottom: 15px;
+            justify-content: space-between;
+            font-size: 8px;
+            width: 85%;
+            margin: 0 auto;
         }
 
-        .tool-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
-        .tool-desc { font-size: 0.85rem; color: #64748b; line-height: 1.4; }
+        /* Anatomy & Comments Toggle */
+        .anatomy-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .anatomy-list {
+            flex: 2;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        .comments-box {
+            flex: 1;
+            border: 1px solid var(--accent-brown);
+            padding: 10px;
+            border-radius: 5px;
+            background: #fffdf9;
+            display: none; /* Hidden by default */
+        }
+        .comments-box textarea {
+            width: 100%;
+            height: 150px;
+            border: none;
+            resize: none;
+            font-family: inherit;
+            font-size: 12px;
+            outline: none;
+            background: transparent;
+        }
 
-        .footer { margin-top: 50px; font-size: 0.8rem; color: #94a3b8; }
+        input, select {
+            border: 1px solid var(--accent-brown);
+            background-color: var(--soft-bg);
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: bold;
+        }
+
+        .no-print {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid var(--accent-brown);
+            z-index: 100;
+        }
+
+        button {
+            background-color: #5d4037;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background: none; padding: 0; }
+            .page { box-shadow: none; margin: 0; width: 210mm; padding: 10mm 15mm; }
+            input, select, textarea { border: none !important; background: none !important; appearance: none; padding: 0 !important; }
+            .comments-box { border: none !important; display: block !important; } /* Ensure comments print if visible */
+            @page { size: A4; margin: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="portal-container">
-        <div class="header">
-            <h1>VIJAYA SCANNING CENTER</h1>
-            <p>Fetal Medicine Center | Digital Report Portal</p>
+<div class="no-print">
+    <button onclick="window.print()">PRINT REPORT</button><br>
+    <button onclick="toggleComments()">TOGGLE COMMENTS BOX</button>
+</div>
+
+<div class="page">
+    <div class="letterhead-space"></div>
+
+    <table class="header-table">
+        <tr>
+            <td style="width: 15%;"><b>Patient name</b></td>
+            <td style="width: 45%;"><input type="text" value="MRS. EGBAL TAHA MOHAMMED NAEEM" style="width: 95%;"></td>
+            <td style="width: 15%;"><b>Age/Sex</b></td>
+            <td style="width: 25%;"><input type="number" value="24" style="width: 40px;"> Years / Female</td>
+        </tr>
+        <tr>
+            <td><b>Patient ID</b></td>
+            <td><input type="text" value="2320788" style="width: 95%;"></td>
+            <td><b>Visit No</b></td>
+            <td><input type="number" value="1" style="width: 90%;"></td>
+        </tr>
+        <tr>
+            <td><b>Referred by</b></td>
+            <td><input type="text" value="Dr. Sarah Oosman" style="width: 95%;"></td>
+            <td><b>Visit Date</b></td>
+            <td><input type="date" value="2024-02-21" style="width: 90%;"></td>
+        </tr>
+        <tr>
+            <td><b>LMP Date</b></td>
+            <td colspan="3">
+                <input type="date" value="2023-11-04" style="width: 110px;"> 
+                &nbsp; LMP EDD: <input type="date" value="2024-08-10" style="width: 110px;"> [GA: <input type="number" value="15" style="width: 35px;">W <input type="number" value="4" style="width: 30px;">D] 
+                | C-EDD: <input type="date" value="2024-08-11" style="width: 110px;"> [GA: <input type="number" value="15" style="width: 35px;">W <input type="number" value="3" style="width: 30px;">D]
+            </td>
+        </tr>
+    </table>
+
+    <div class="report-title">OB - 2/3 Trimester Scan Report</div>
+
+    <div class="section-text">Real time B-mode ultrasonography of gravid uterus done. Route: Transabdominal. Single intrauterine gestation.</div>
+
+    <span class="section-title">Maternal</span>
+    <div class="section-text">Cervix measured <input type="number" step="0.01" value="3.20" style="width: 50px;"> cm in length.</div>
+
+    <div class="doppler-grid">
+        <div class="doppler-box">
+            <b>Right Uterine PI</b><br>
+            <input type="number" step="0.01" value="0.80" style="width: 50px;" oninput="updateDoppler('rpi', this.value)">
+            <div class="whisker-line"><div class="dot" id="dot-rpi" style="left: 35%;"></div></div>
+            <div class="centile-labels"><span>0.1</span><span>Mean</span><span>2.4</span></div>
         </div>
-        
-        <div class="menu-grid">
-            <a href="billing-app/index.html" class="tool-card">
-                <div class="icon-circle">🧾</div>
-                <div class="tool-name">Billing App</div>
-                <div class="tool-desc">Hospital billing and invoice generation.</div>
-            </a>
-
-            <a href="NT-report/index.html" class="tool-card">
-                <div class="icon-circle">🔍</div>
-                <div class="tool-name">NT Report</div>
-                <div class="tool-desc">1st Trimester Nuchal Translucency & Early Anatomy.</div>
-            </a>
-
-            <a href="tiffa-report/index.html" class="tool-card">
-                <div class="icon-circle">👶</div>
-                <div class="tool-name">TIFFA Report</div>
-                <div class="tool-desc">2nd Trimester Detailed Anomaly (Level II) Scan.</div>
-            </a>
-
-            <a href="Growth-report/index.html" class="tool-card">
-                <div class="icon-circle">📈</div>
-                <div class="tool-name">Growth Report</div>
-                <div class="tool-desc">Late Trimester Growth Tracking & Doppler Study.</div>
-            </a>
-
-            <a href="Dating-report/index.html" class="tool-card">
-                <div class="icon-circle">📅</div>
-                <div class="tool-name">Dating Scan</div>
-                <div class="tool-desc">Early Pregnancy Confirmation & EDD Calculation.</div>
-            </a>
-
-            <a href="Wellbeing-report/index.html" class="tool-card">
-                <div class="icon-circle">🛡️</div>
-                <div class="tool-name">Fetal Wellbeing</div>
-                <div class="tool-desc">BPP (Biophysical Profile) & Liquors Assessment.</div>
-            </a>
+        <div class="doppler-box">
+            <b>Left Uterine PI</b><br>
+            <input type="number" step="0.01" value="0.75" style="width: 50px;" oninput="updateDoppler('lpi', this.value)">
+            <div class="whisker-line"><div class="dot" id="dot-lpi" style="left: 30%;"></div></div>
+            <div class="centile-labels"><span>0.1</span><span>Mean</span><span>2.4</span></div>
         </div>
-
-        <div class="footer">© 2026 Vijaya Scanning Center</div>
+        <div class="doppler-box">
+            <b>Mean PI</b><br>
+            <input type="number" step="0.01" value="0.77" style="width: 50px;" oninput="updateDoppler('mpi', this.value)">
+            <div class="whisker-line"><div class="dot" id="dot-mpi" style="left: 32%;"></div></div>
+            <div class="centile-labels"><span>0.1</span><span>Mean</span><span>2.4</span></div>
+        </div>
     </div>
+
+    <span class="section-title">Fetus Survey</span>
+    <div class="section-text">Presentation - 
+        <select>
+            <option>Cephalic</option>
+            <option>Breech</option>
+            <option>Transverse</option>
+        </select>
+    </div>
+    <div class="section-text">Liquor - 
+        <select>
+            <option>Normal</option>
+            <option>Excess</option>
+            <option>Less</option>
+            <option>Slightly excess</option>
+            <option>Slightly less</option>
+            <option>Very Less</option>
+        </select>
+    </div>
+    <div class="section-text">Umbilical cord - 
+        <select>
+            <option>Two arteries and one vein</option>
+            <option>1 artery 1 vein</option>
+        </select>
+    </div>
+    <div class="section-text">Fetal Activity / Cardiac Activity: Present. Heart rate - <input type="number" value="142" style="width: 50px;"> bpm</div>
+
+    <span class="section-title">Biometry (Hadlock)</span>
+    <div class="doppler-grid" style="grid-template-columns: repeat(5, 1fr);">
+        <div class="doppler-box">
+            <b>BPD <input type="number" step="0.1" value="31.3" style="width: 45px;"> mm</b><br>
+            <div class="whisker-line"><div class="dot" id="dot-bpd" style="left: 50%;"></div></div>
+            <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
+        </div>
+        <div class="doppler-box">
+            <b>HC <input type="number" step="0.1" value="111.6" style="width: 45px;"> mm</b><br>
+            <div class="whisker-line"><div class="dot" id="dot-hc" style="left: 50%;"></div></div>
+            <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
+        </div>
+        <div class="doppler-box">
+            <b>AC <input type="number" step="0.1" value="94.7" style="width: 45px;"> mm</b><br>
+            <div class="whisker-line"><div class="dot" id="dot-ac" style="left: 50%;"></div></div>
+            <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
+        </div>
+        <div class="doppler-box">
+            <b>FL <input type="number" step="0.1" value="17.4" style="width: 45px;"> mm</b><br>
+            <div class="whisker-line"><div class="dot" id="dot-fl" style="left: 45%;"></div></div>
+            <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
+        </div>
+        <div class="doppler-box">
+            <b>EFW <input type="number" value="123" style="width: 50px;"> g</b><br>
+            <div class="whisker-line"><div class="dot" id="dot-efw" style="left: 50%;"></div></div>
+            <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
+        </div>
+    </div>
+
+    <div class="anatomy-container">
+        <div class="anatomy-list">
+            <span class="section-title" style="margin-top: 0;">Fetal Anatomy</span>
+            Intracranial structures appeared normal. Neck/Spine appeared normal.<br>
+            No evidence of significant open neural tube defect.<br>
+            Fetal face appeared normal. Both lungs seen.<br>
+            No evidence of pleural/pericardial effusion or SOL in thorax.<br>
+            Heart and Abdominal situs appeared normal.<br>
+            Both kidneys and bladder appeared normal.<br>
+            All fetal long bones visualized and appear normal. Both feet normal.
+        </div>
+        <div class="comments-box" id="commentsBox">
+            <span class="section-title" style="margin-top: 0;">Comments</span>
+            <textarea placeholder="Enter additional findings here..."></textarea>
+        </div>
+    </div>
+
+    <span class="section-title">Impression</span>
+    <div class="section-text">Single intrauterine gestation corresponding to a gestational age of <input type="number" value="15" style="width: 40px;"> Weeks <input type="number" value="3" style="width: 35px;"> Days. Corrected EDD: <input type="date" value="2024-08-11" style="width: 110px;">.</div>
+
+    <div style="margin-top: 30px; margin-left: auto; text-align: left; width: 250px; font-size: 13px;">
+        <b>DR. MADHAVI LATHA MD</b><br>RADIOLOGIST
+    </div>
+
+    <div style="margin-top: 15px; font-size: 9px; border-top: 1px solid #000; padding-top: 5px;">
+        <b>Disclaimer:</b> I HAVE NEITHER DETECTED NOR DISCLOSED THE GENDER OF THE FETUS TO ANYBODY IN ANY MANNER. FINDINGS DEPEND ON FETAL POSITION, ADEQUACY OF LIQUOR AND PERIOD OF GESTATION.
+    </div>
+</div>
+
+<script>
+    function toggleComments() {
+        const box = document.getElementById('commentsBox');
+        box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function updateDoppler(id, val) {
+        const dot = document.getElementById('dot-' + id);
+        // Scaling 0.1 to 2.4 across 100% width
+        let percent = ((val - 0.1) / (2.4 - 0.1)) * 100;
+        dot.style.left = Math.min(Math.max(percent, 0), 100) + '%';
+    }
+</script>
 
 </body>
 </html>
