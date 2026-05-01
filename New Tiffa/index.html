@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OB - 2/3 Trimester Scan Report</title>
+    <style>
+        :root {
+            --accent-brown: #a1887f;
+            --soft-bg: #efebe9;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background-color: #d7ccc8;
+            margin: 0;
+            padding: 10px;
+        }
+
+        .page {
+            background-color: white;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto 20px auto;
+            padding: 10mm 15mm;
+            box-sizing: border-box;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .letterhead-space { height: 45mm; flex-shrink: 0; }
+        .footer-space { height: 15mm; margin-top: auto; flex-shrink: 0; }
+
+        .header-table {
+            width: 100%;
+            border: 1px solid #000;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        .header-table td { border: 1px solid #000; padding: 4px 8px; }
+
+        /* Updated Title Selection Styles */
+        .report-title-container { text-align: center; margin: 10px 0; }
+        .report-title-select {
+            text-align-last: center;
+            text-decoration: underline;
+            font-weight: bold;
+            font-size: 18px;
+            border: 1px solid var(--accent-brown);
+            background-color: var(--soft-bg);
+            width: 60%;
+            font-family: inherit;
+            cursor: pointer;
+            padding: 2px;
+        }
+
+        .section-text { font-size: 13px; line-height: 1.4; margin-bottom: 8px; }
+        .section-title { font-weight: bold; text-decoration: underline; margin-top: 10px; display: block; }
+
+        .doppler-grid {
+            display: flex;
+            flex-wrap: wrap;
+            border-left: 1px solid #000;
+            border-top: 1px solid #000;
+            margin: 10px 0;
+        }
+        .doppler-box {
+            flex: 1;
+            min-width: 120px;
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+            padding: 8px 5px;
+            text-align: center;
+            font-size: 11px;
+            box-sizing: border-box;
+        }
+
+        .whisker-line {
+            position: relative;
+            width: 80%;
+            height: 1px;
+            background: black;
+            margin: 14px auto 4px auto;
+        }
+        .whisker-line::before, .whisker-line::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            width: 1px;
+            height: 8px;
+            background: black;
+        }
+        .whisker-line::after { right: 0; }
+        .dot {
+            position: absolute;
+            top: -3px;
+            width: 6px;
+            height: 6px;
+            background: black;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            transition: left 0.3s ease;
+        }
+        .centile-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 8px;
+            width: 85%;
+            margin: 0 auto;
+        }
+
+        .anatomy-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .anatomy-table {
+            flex: 2;
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .anatomy-table td {
+            border: 1px solid #000;
+            padding: 6px 10px;
+            vertical-align: top;
+        }
+        .anatomy-label { font-weight: bold; width: 100px; }
+
+        .comments-box {
+            flex: 1;
+            border: 1px solid var(--accent-brown);
+            padding: 10px;
+            border-radius: 5px;
+            background: #fffdf9;
+            display: none; 
+        }
+        .comments-box textarea {
+            width: 100%;
+            height: 200px;
+            border: none;
+            resize: none;
+            font-family: inherit;
+            font-size: 12px;
+            outline: none;
+            background: transparent;
+        }
+
+        .growth-summary {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px double #000;
+            background-color: #fcfcfc;
+        }
+
+        input, select {
+            border: 1px solid var(--accent-brown);
+            background-color: var(--soft-bg);
+            font-family: 'Times New Roman', Times, serif;
+            font-size: inherit;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .ga-row { margin-top: 4px; font-size: 10px; }
+
+        .no-print {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid var(--accent-brown);
+            z-index: 100;
+        }
+
+        button {
+            background-color: #5d4037;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background: none; padding: 0; }
+            .page { box-shadow: none; margin: 0; width: 210mm; padding: 10mm 15mm; page-break-after: always; }
+            input, select, textarea { border: none !important; background: none !important; appearance: none; padding: 0 !important; }
+            .report-title-select { border: none !important; background: none !important; appearance: none; }
+            .comments-box { border: none !important; display: block !important; }
+            @page { size: A4; margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="no-print">
+    <button onclick="window.print()">PRINT REPORT</button><br>
+    <button onclick="toggleComments()">TOGGLE COMMENTS BOX</button>
+</div>
+
+<div class="page">
+    <div class="letterhead-space"></div>
+
+    <table class="header-table">
+        <tr>
+            <td style="width: 15%;"><b>Patient Name</b></td>
+            <td style="width: 45%;"><input type="text" value="MRS. EGBAL TAHA MOHAMMED NAEEM" style="width: 95%; text-align: left;"></td>
+            <td style="width: 15%;"><b>Age/Sex</b></td>
+            <td style="width: 25%;"><input type="number" value="24"> Years / Female</td>
+        </tr>
+        <tr>
+            <td><b>Patient ID</b></td>
+            <td><input type="text" value="2320788" style="width: 95%; text-align: left;"></td>
+            <td><b>Visit No</b></td>
+            <td><input type="number" value="1"></td>
+        </tr>
+        <tr>
+            <td><b>Referred By</b></td>
+            <td><input type="text" value="Dr. Sarah Oosman" style="width: 95%; text-align: left;"></td>
+            <td><b>Visit Date</b></td>
+            <td><input type="date" value="2024-02-21"></td>
+        </tr>
+        <tr>
+            <td><b>LMP Date</b></td>
+            <td colspan="3">
+                <input type="date" value="2023-11-04"> 
+                &nbsp; LMP EDD: <input type="date" value="2024-08-10"> [GA: <input type="number" value="15" style="width:35px;">W <input type="number" value="4" style="width:30px;">D] 
+                | C-EDD: <input type="date" value="2024-08-11"> [GA: <input type="number" value="15" style="width:35px;">W <input type="number" value="3" style="width:30px;">D]
+            </td>
+        </tr>
+    </table>
+
+    <div class="report-title-container">
+        <select class="report-title-select">
+            <option value="EARLY TIFFA REPORT">EARLY TIFFA REPORT</option>
+            <option value="NORMAL TIFFA REPORT" selected>NORMAL TIFFA REPORT</option>
+            <option value="LATE TIFFA REPORT">LATE TIFFA REPORT</option>
+        </select>
+    </div>
+
+    <span class="section-title">Maternal Findings</span>
+    <div class="section-text">Cervix measured <input type="number" step="0.01" value="3.20" style="width: 60px;"> cm in length.</div>
+
+    <div class="doppler-grid">
+        <div class="doppler-box">
+            <b>Right Uterine PI</b><br>
+            <input type="number" step="0.01" value="0.80" oninput="updateDoppler('rpi', this.value, 0.1, 2.4)">
+            <div class="whisker-line"><div class="dot" id="dot-rpi" style="left: 35%;"></div></div>
+            <div class="centile-labels"><span>0.1</span><span>Mean</span><span>2.4</span></div>
+        </div>
+        <div class="doppler-box">
+            <b>Left Uterine PI</b><br>
+            <input type="number" step="0.01" value="0.75" oninput="updateDoppler('lpi', this.value, 0.1, 2.4)">
+            <div class="whisker-line"><div class="dot" id="dot-lpi" style="left: 30%;"></div></div>
+            <div class="centile-labels"><span>0.1</span><span>Mean</span><span>2.4</span></div>
+        </div>
+        <div class="doppler-box">
+            <b>Mean PI</b><br>
+            <input type="number" step="0.01" value="0.77" oninput="updateDoppler('mpi', this.value, 0.1, 2.4)">
+            <div class="whisker-line"><div class="dot" id="dot-mpi" style="left: 32%;"></div></div>
+            <div class="centile-labels"><span>0.1</span><span>Mean</span><span>2.4</span></div>
+        </div>
+    </div>
+
+    <span class="section-title">Fetus Survey</span>
+    <div class="section-text">
+        Presentation: <select><option>Cephalic</option><option>Breech</option><option>Transverse</option></select> | 
+        Liquor: <select><option>Normal</option><option>Excess</option><option>Less</option><option>Slightly excess</option><option>Slightly less</option><option>Very Less</option></select>
+    </div>
+    <div class="section-text">
+        Umbilical cord: <select><option>Two Arteries and One Vein</option><option>1 Artery 1 Vein</option></select> | 
+        Heart Rate: <input type="number" value="142"> bpm
+    </div>
+
+    <span class="section-title">Biometry (Hadlock)</span>
+    <div class="doppler-grid">
+        <div class="doppler-box">
+            <b>BPD: <input type="number" step="0.1" value="31.3" style="width:50px;"> mm</b>
+            <div class="ga-row"><input type="number" value="15" style="width:30px;">W <input type="number" value="5" style="width:25px;">D</div>
+            <div class="whisker-line"><div class="dot" id="dot-bpd" style="left: 50%;"></div></div>
+            <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
+            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('bpd', this.value)" style="width:40px;"> %</div>
+        </div>
+        <div class="doppler-box">
+            <b>HC: <input type="number" step="0.1" value="111.6" style="width:55px;"> mm</b>
+            <div class="ga-row"><input type="number" value="15" style="width:30px;">W <input type="number" value="0" style="width:25px;">D</div>
+            <div class="whisker-line"><div class="dot" id="dot-hc" style="left: 50%;"></div></div>
+            <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
+            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('hc', this.value)" style="width:40px;"> %</div>
+        </div>
+        <div class="doppler-box">
+            <b>AC: <input type="number" step="0.1" value="94.7" style="width:55px;"> mm</b>
+            <div class="ga-row"><input type="number" value="15" style="width:30px;">W <input type="number" value="5" style="width:25px;">D</div>
+            <div class="whisker-line"><div class="dot" id="dot-ac" style="left: 50%;"></div></div>
+            <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
+            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('ac', this.value)" style="width:40px;"> %</div>
+        </div>
+        <div class="doppler-box">
+            <b>FL: <input type="number" step="0.1" value="17.4" style="width:50px;"> mm</b>
+            <div class="ga-row"><input type="number" value="15" style="width:30px;">W <input type="number" value="1" style="width:25px;">D</div>
+            <div class="whisker-line"><div class="dot" id="dot-fl" style="left: 50%;"></div></div>
+            <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
+            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('fl', this.value)" style="width:40px;"> %</div>
+        </div>
+        <div class="doppler-box">
+            <b>EFW: <input type="number" value="123" style="width:50px;"> g</b>
+            <div class="ga-row"><input type="number" value="15" style="width:30px;">W <input type="number" value="3" style="width:25px;">D</div>
+            <div class="whisker-line"><div class="dot" id="dot-efw" style="left: 50%;"></div></div>
+            <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
+            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('efw', this.value)" style="width:40px;"> %</div>
+        </div>
+    </div>
+
+    <span class="section-title">Anatomical Study</span>
+    <div class="anatomy-container">
+        <table class="anatomy-table">
+            <tr><td class="anatomy-label">Brain</td><td class="anatomy-findings">Lateral ventricle size: <input type="text" value="Normal" style="width: 80px; text-align: left;"><br>CSP: <input type="text" value="Seen/Normal" style="width: 100px; text-align: left;"><br>Cerebellum/CM: <input type="text" value="Normal" style="width: 80px; text-align: left;"></td></tr>
+            <tr><td class="anatomy-label">Heart</td><td class="anatomy-findings">Axis/Rotation: <input type="text" value="Normal" style="width: 80px; text-align: left;"><br>LVOT/RVOT: <input type="text" value="Normal" style="width: 80px; text-align: left;"><br>PAS view: <input type="text" value="Normal" style="width: 80px; text-align: left;"><br>Four chamber view: <input type="text" value="Normal" style="width: 80px; text-align: left;"></td></tr>
+            <tr><td class="anatomy-label">Lungs</td><td class="anatomy-findings"><input type="text" value="Normal in echogenicity" style="width: 180px; text-align: left;"><br>No obvious CPAM/CLE seen</td></tr>
+            <tr><td class="anatomy-label">Abdomen</td><td class="anatomy-findings">Stomach bubble visualized<br>Both kidneys and bladder appear <input type="text" value="Normal" style="width: 80px; text-align: left;"> in configuration</td></tr>
+            <tr><td class="anatomy-label">Spine/Limbs</td><td class="anatomy-findings">Spine: <input type="text" value="Normal" style="width: 80px; text-align: left;"><br>Skin above spine seen<br>Limbs appear symmetric on both sides</td></tr>
+            <tr><td class="anatomy-label">Face</td><td class="anatomy-findings">Orbits/Lips: <input type="text" value="Normal" style="width: 80px; text-align: left;"><br>Nasal bone seen<br>Premaxillary triangle: <input type="text" value="Normal" style="width: 80px; text-align: left;"></td></tr>
+            <tr><td class="anatomy-label">Cord</td><td class="anatomy-findings"><input type="text" value="Normal central insertion" style="width: 180px; text-align: left;"><br>Three vessel cord (2A+1V) visualized</td></tr>
+        </table>
+        <div class="comments-box" id="commentsBox">
+            <span class="section-title" style="margin-top: 0;">Comments</span>
+            <textarea placeholder="Type clinical notes here..."></textarea>
+        </div>
+    </div>
+
+    <div class="growth-summary">
+        <strong>GROWTH ASSESSMENT:</strong><br>
+        Estimated Fetal Weight (EFW) is <strong><input type="number" value="123" style="width: 60px;"> grams</strong> 
+        (+/- <input type="number" value="12.3" step="0.1" style="width: 50px;"> gms).
+    </div>
+
+    <span class="section-title">Impression</span>
+    <div class="section-text">
+        Single intrauterine gestation corresponding to a gestational age of 
+        <input type="number" value="15" style="width: 40px;"> Weeks <input type="number" value="3" style="width: 35px;"> Days. 
+        Corrected EDD: <input type="date" value="2024-08-11">.
+    </div>
+
+    <div style="margin-top: 30px; margin-left: auto; text-align: left; width: 250px; font-size: 13px;">
+        <b>DR. MADHAVI LATHA MD</b><br>RADIOLOGIST
+    </div>
+
+    <div style="margin-top: 15px; font-size: 9px; border-top: 1px solid #000; padding-top: 5px;">
+        <b>Disclaimer:</b> I HAVE NEITHER DETECTED NOR DISCLOSED THE GENDER OF THE FETUS TO ANYBODY IN ANY MANNER. FINDINGS DEPEND ON FETAL POSITION, ADEQUACY OF LIQUOR AND PERIOD OF GESTATION.
+    </div>
+    <div class="footer-space"></div>
+</div>
+
+<script>
+    function toggleComments() {
+        const box = document.getElementById('commentsBox');
+        box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function moveDot(id, val) {
+        const dot = document.getElementById('dot-' + id);
+        if(dot) {
+            dot.style.left = Math.min(Math.max(val, 0), 100) + '%';
+        }
+    }
+
+    function updateDoppler(id, val, min, max) {
+        const dot = document.getElementById('dot-' + id);
+        if(dot) {
+            let percent = ((val - min) / (max - min)) * 100;
+            dot.style.left = Math.min(Math.max(percent, 0), 100) + '%';
+        }
+    }
+</script>
+
+</body>
+</html>
