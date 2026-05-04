@@ -156,6 +156,10 @@
             text-align: center;
         }
 
+        #placentaSegment {
+            display: none;
+        }
+
         .no-print {
             position: fixed;
             top: 20px;
@@ -238,11 +242,19 @@
 
     <span class="section-title">Fetus Survey</span>
     <div class="section-text">
-        Presentation: <select>
-            <option>Cephalic</option>
-            <option>Breech</option>
-            <option>Transverse</option>
-            <option>Placental</option>
+        Presentation: 
+        <select id="presentationSelect" onchange="checkPlacenta(this.value)">
+            <option value="Cephalic">Cephalic</option>
+            <option value="Breech">Breech</option>
+            <option value="Transverse">Transverse</option>
+            <option value="Placental">Placental</option>
+        </select>&nbsp;<select id="placentaSegment">
+            <option>Upper segment</option>
+            <option>Anterior Lower segment</option>
+            <option>Posterior Upper segment</option>
+            <option>Posterior Lower segment</option>
+            <option>Lateral Right</option>
+            <option>Lateral Left</option>
         </select> | 
         Liquor: <select><option>Normal</option><option>Excess</option><option>Less</option><option>Slightly excess</option><option>Slightly less</option><option>Very Less</option></select>
     </div>
@@ -330,6 +342,15 @@
         box.style.display = (box.style.display === 'block') ? 'none' : 'block';
     }
 
+    function checkPlacenta(val) {
+        const segment = document.getElementById('placentaSegment');
+        if (val === 'Placental') {
+            segment.style.display = 'inline-block';
+        } else {
+            segment.style.display = 'none';
+        }
+    }
+
     function moveDot(id, val) {
         const dot = document.getElementById('dot-' + id);
         if(dot) {
@@ -342,7 +363,6 @@
         if (!lmpValue) return;
         const lmp = new Date(lmpValue);
         
-        // 1. Calculate EDD (LMP + 9 months + 7 days)
         const edd = new Date(lmp);
         edd.setMonth(edd.getMonth() + 9);
         edd.setDate(edd.getDate() + 7);
@@ -351,7 +371,6 @@
         document.getElementById('cedd').value = eddFormatted;
         document.getElementById('impEdd').value = eddFormatted;
 
-        // 2. Calculate Gestational Age
         const today = new Date();
         const diffTime = today - lmp;
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
