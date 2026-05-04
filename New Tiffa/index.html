@@ -8,6 +8,7 @@
         :root {
             --accent-brown: #a1887f;
             --soft-bg: #efebe9;
+            --editable-hint: #8d6e63;
         }
 
         body {
@@ -41,6 +42,15 @@
         }
         .header-table td { border: 1px solid #000; padding: 4px 8px; }
 
+        /* Editable Text Styling */
+        [contenteditable="true"] {
+            outline: none;
+            border-bottom: 1px dashed var(--accent-brown);
+            padding: 0 2px;
+            transition: background 0.2s;
+        }
+        [contenteditable="true"]:hover { background-color: var(--soft-bg); }
+
         .report-title-container { text-align: center; margin: 10px 0; }
         .report-title-select {
             text-align-last: center;
@@ -52,7 +62,6 @@
             width: 60%;
             font-family: inherit;
             cursor: pointer;
-            padding: 2px;
         }
 
         .section-text { font-size: 13px; line-height: 1.4; margin-bottom: 8px; }
@@ -81,7 +90,7 @@
             width: 80%;
             height: 1px;
             background: black;
-            margin: 14px auto 4px auto;
+            margin: 12px auto 4px auto;
         }
         .whisker-line::before, .whisker-line::after {
             content: '';
@@ -110,22 +119,9 @@
             margin: 0 auto;
         }
 
-        .anatomy-container {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
-        }
-        .anatomy-table {
-            flex: 2;
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-        .anatomy-table td {
-            border: 1px solid #000;
-            padding: 6px 10px;
-            vertical-align: top;
-        }
+        .anatomy-container { display: flex; gap: 15px; margin-top: 10px; }
+        .anatomy-table { flex: 2; width: 100%; border-collapse: collapse; font-size: 13px; }
+        .anatomy-table td { border: 1px solid #000; padding: 6px 10px; vertical-align: top; }
         .anatomy-label { font-weight: bold; width: 100px; }
 
         .comments-box {
@@ -156,30 +152,18 @@
             text-align: center;
         }
 
-        #placentaSegment {
-            display: none;
-        }
+        #placentaSegment { display: none; margin-left: 5px; }
 
         .no-print {
             position: fixed;
-            top: 20px;
-            left: 20px;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            border: 2px solid var(--accent-brown);
-            z-index: 100;
+            top: 20px; left: 20px;
+            background: white; padding: 15px; border-radius: 8px;
+            border: 2px solid var(--accent-brown); z-index: 100;
         }
 
         button {
-            background-color: #5d4037;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: 4px;
-            margin-bottom: 5px;
+            background-color: #5d4037; color: white; border: none;
+            padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; margin-bottom: 5px;
         }
 
         @media print {
@@ -187,6 +171,7 @@
             body { background: none; padding: 0; }
             .page { box-shadow: none; margin: 0; width: 210mm; padding: 10mm 15mm; page-break-after: always; }
             input, select, textarea { border: none !important; background: none !important; appearance: none; padding: 0 !important; }
+            [contenteditable="true"] { border: none !important; color: black !important; padding: 0; }
             .report-title-select { border: none !important; background: none !important; appearance: none; }
             .comments-box { border: none !important; display: block !important; }
             @page { size: A4; margin: 0; }
@@ -205,29 +190,29 @@
 
     <table class="header-table">
         <tr>
-            <td style="width: 15%;"><b>Patient Name</b></td>
+            <td style="width: 15%;"><b contenteditable="true">Patient Name</b></td>
             <td style="width: 45%;"><input type="text" value="MRS. EGBAL TAHA MOHAMMED NAEEM" style="width: 95%; text-align: left;"></td>
-            <td style="width: 15%;"><b>Age/Sex</b></td>
-            <td style="width: 25%;"><input type="number" value="24"> Years / Female</td>
+            <td style="width: 15%;"><b contenteditable="true">Age/Sex</b></td>
+            <td style="width: 25%;"><input type="number" value="24"> <span contenteditable="true">Years / Female</span></td>
         </tr>
         <tr>
-            <td><b>Patient ID</b></td>
+            <td><b contenteditable="true">Patient ID</b></td>
             <td><input type="text" value="2320788" style="width: 95%; text-align: left;"></td>
-            <td><b>Visit No</b></td>
+            <td><b contenteditable="true">Visit No</b></td>
             <td><input type="number" value="1"></td>
         </tr>
         <tr>
-            <td><b>Referred By</b></td>
+            <td><b contenteditable="true">Referred By</b></td>
             <td><input type="text" value="Dr. Sarah Oosman" style="width: 95%; text-align: left;"></td>
-            <td><b>Visit Date</b></td>
+            <td><b contenteditable="true">Visit Date</b></td>
             <td><input type="date" value="2026-05-04" id="visitDate"></td>
         </tr>
         <tr>
-            <td><b>LMP Date</b></td>
+            <td><b contenteditable="true">LMP Date</b></td>
             <td colspan="3">
                 <input type="date" id="lmpDate" onchange="calculateDates()"> 
-                &nbsp; LMP EDD: <input type="date" id="lmpEdd"> [GA: <input type="number" id="gaWeeks" style="width:30px;">W <input type="number" id="gaDays" style="width:30px;">D] 
-                | C-EDD: <input type="date" id="cedd"> [GA: <input type="number" id="gaWeeks2" style="width:30px;">W <input type="number" id="gaDays2" style="width:30px;">D]
+                &nbsp; <span contenteditable="true">LMP EDD:</span> <input type="date" id="lmpEdd"> [GA: <input type="number" id="gaWeeks" style="width:30px;">W <input type="number" id="gaDays" style="width:30px;">D] 
+                | <span contenteditable="true">C-EDD:</span> <input type="date" id="cedd"> [GA: <input type="number" id="gaWeeks2" style="width:30px;">W <input type="number" id="gaDays2" style="width:30px;">D]
             </td>
         </tr>
     </table>
@@ -240,15 +225,21 @@
         </select>
     </div>
 
-    <span class="section-title">Fetus Survey</span>
+    <div class="section-text" contenteditable="true">Real time B-mode ultrasonography of gravid uterus done. Route: Transabdominal. Single intrauterine gestation.</div>
+
+    <span class="section-title" contenteditable="true">Maternal Findings</span>
+    <div class="section-text"><span contenteditable="true">Cervix measured</span> <input type="number" step="0.01" value="3.20" style="width: 60px;"> <span contenteditable="true">cm in length.</span></div>
+
+    <span class="section-title" contenteditable="true">Fetus Survey</span>
     <div class="section-text">
-        Presentation: 
+        <span contenteditable="true">Presentation:</span> 
         <select id="presentationSelect" onchange="checkPlacenta(this.value)">
             <option value="Cephalic">Cephalic</option>
             <option value="Breech">Breech</option>
             <option value="Transverse">Transverse</option>
             <option value="Placental">Placental</option>
-        </select>&nbsp;<select id="placentaSegment">
+        </select>
+        <select id="placentaSegment">
             <option>Upper segment</option>
             <option>Anterior Lower segment</option>
             <option>Posterior Upper segment</option>
@@ -256,136 +247,34 @@
             <option>Lateral Right</option>
             <option>Lateral Left</option>
         </select> | 
-        Liquor: <select><option>Normal</option><option>Excess</option><option>Less</option><option>Slightly excess</option><option>Slightly less</option><option>Very Less</option></select>
+        <span contenteditable="true">Liquor:</span> <select><option>Normal</option><option>Excess</option><option>Less</option><option>Slightly excess</option><option>Slightly less</option><option>Very Less</option></select>
     </div>
     <div class="section-text">
-        Umbilical cord: <select><option>Two Arteries and One Vein</option><option>1 Artery 1 Vein</option></select> | 
-        Heart Rate: <input type="number" value="142"> bpm
+        <span contenteditable="true">Umbilical cord:</span> <select><option>Two Arteries and One Vein</option><option>1 Artery 1 Vein</option></select> | 
+        <span contenteditable="true">Heart Rate:</span> <input type="number" value="142"> <span contenteditable="true">bpm</span>
     </div>
 
-    <span class="section-title">Biometry (Hadlock)</span>
+    <span class="section-title" contenteditable="true">Biometry (Hadlock)</span>
     <div class="doppler-grid">
         <div class="doppler-box">
-            <b>BPD: <input type="number" step="0.1" value="31.3" style="width:50px;"> mm</b><br>
+            <b contenteditable="true">BPD:</b> <input type="number" step="0.1" value="31.3" style="width:45px;"> <span contenteditable="true">mm</span><br>
             <input type="number" value="15" style="width:30px;">W <input type="number" value="5" style="width:25px;">D
             <div class="whisker-line"><div class="dot" id="dot-bpd" style="left: 50%;"></div></div>
             <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
-            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('bpd', this.value)" style="width:40px;"> %</div>
+            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('bpd', this.value)" style="width:35px;"> %</div>
         </div>
         <div class="doppler-box">
-            <b>HC: <input type="number" step="0.1" value="111.6" style="width:55px;"> mm</b><br>
+            <b contenteditable="true">HC:</b> <input type="number" step="0.1" value="111.6" style="width:50px;"> <span contenteditable="true">mm</span><br>
             <input type="number" value="15" style="width:30px;">W <input type="number" value="0" style="width:25px;">D
             <div class="whisker-line"><div class="dot" id="dot-hc" style="left: 50%;"></div></div>
             <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
-            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('hc', this.value)" style="width:40px;"> %</div>
+            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('hc', this.value)" style="width:35px;"> %</div>
         </div>
         <div class="doppler-box">
-            <b>AC: <input type="number" step="0.1" value="94.7" style="width:55px;"> mm</b><br>
+            <b contenteditable="true">AC:</b> <input type="number" step="0.1" value="94.7" style="width:50px;"> <span contenteditable="true">mm</span><br>
             <input type="number" value="15" style="width:30px;">W <input type="number" value="5" style="width:25px;">D
             <div class="whisker-line"><div class="dot" id="dot-ac" style="left: 50%;"></div></div>
             <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
-            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('ac', this.value)" style="width:40px;"> %</div>
+            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('ac', this.value)" style="width:35px;"> %</div>
         </div>
         <div class="doppler-box">
-            <b>FL: <input type="number" step="0.1" value="17.4" style="width:50px;"> mm</b><br>
-            <input type="number" value="15" style="width:30px;">W <input type="number" value="1" style="width:25px;">D
-            <div class="whisker-line"><div class="dot" id="dot-fl" style="left: 50%;"></div></div>
-            <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
-            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('fl', this.value)" style="width:40px;"> %</div>
-        </div>
-        <div class="doppler-box">
-            <b>EFW: <input type="number" value="123" style="width:50px;"> g</b><br>
-            <input type="number" value="15" style="width:30px;">W <input type="number" value="3" style="width:25px;">D
-            <div class="whisker-line"><div class="dot" id="dot-efw" style="left: 50%;"></div></div>
-            <div class="centile-labels"><span>5%</span><span>50%</span><span>95%</span></div>
-            <div style="margin-top:5px;"><input type="number" value="50" oninput="moveDot('efw', this.value)" style="width:40px;"> %</div>
-        </div>
-    </div>
-
-    <span class="section-title">Anatomical Study</span>
-    <div class="anatomy-container">
-        <table class="anatomy-table">
-            <tr><td class="anatomy-label">Brain</td><td class="anatomy-findings">Lateral ventricle size: <input type="text" value="Normal" style="width: 80px; text-align: left;"><br>CSP: <input type="text" value="Seen/Normal" style="width: 100px; text-align: left;"><br>Cerebellum/CM: <input type="text" value="Normal" style="width: 80px; text-align: left;"></td></tr>
-            <tr><td class="anatomy-label">Heart</td><td class="anatomy-findings">Axis/Rotation: <input type="text" value="Normal" style="width: 80px; text-align: left;"><br>LVOT/RVOT: <input type="text" value="Normal" style="width: 80px; text-align: left;"><br>PAS view: <input type="text" value="Normal" style="width: 80px; text-align: left;"><br>Four chamber view: <input type="text" value="Normal" style="width: 80px; text-align: left;"></td></tr>
-            <tr><td class="anatomy-label">Lungs</td><td class="anatomy-findings"><input type="text" value="Normal in echogenicity" style="width: 180px; text-align: left;"><br>No obvious CPAM/CLE seen</td></tr>
-            <tr><td class="anatomy-label">Abdomen</td><td class="anatomy-findings">Stomach bubble visualized<br>Both kidneys and bladder appear <input type="text" value="Normal" style="width: 80px; text-align: left;"> in configuration</td></tr>
-            <tr><td class="anatomy-label">Spine/Limbs</td><td class="anatomy-findings">Spine: <input type="text" value="Normal" style="width: 80px; text-align: left;"><br>Skin above spine seen<br>Limbs appear symmetric on both sides</td></tr>
-            <tr><td class="anatomy-label">Face</td><td class="anatomy-findings">Orbits/Lips: <input type="text" value="Normal" style="width: 80px; text-align: left;"><br>Nasal bone seen<br>Premaxillary triangle: <input type="text" value="Normal" style="width: 80px; text-align: left;"></td></tr>
-            <tr><td class="anatomy-label">Cord</td><td class="anatomy-findings"><input type="text" value="Normal central insertion" style="width: 180px; text-align: left;"><br>Three vessel cord (2A+1V) visualized</td></tr>
-        </table>
-        <div class="comments-box" id="commentsBox">
-            <span class="section-title" style="margin-top: 0;">Comments</span>
-            <textarea placeholder="Type clinical notes here..."></textarea>
-        </div>
-    </div>
-
-    <span class="section-title">Impression</span>
-    <div class="section-text">
-        Single intrauterine gestation corresponding to a gestational age of 
-        <input type="number" id="impWeeks" value="15" style="width: 40px;"> Weeks <input type="number" id="impDays" value="3" style="width: 35px;"> Days. 
-        Corrected EDD: <input type="date" id="impEdd" value="2024-08-11">.
-    </div>
-
-    <div style="margin-top: 30px; margin-left: auto; text-align: left; width: 250px; font-size: 13px;">
-        <b>DR. MADHAVI LATHA MD</b><br>RADIOLOGIST
-    </div>
-
-    <div style="margin-top: 15px; font-size: 9px; border-top: 1px solid #000; padding-top: 5px;">
-        <b>Disclaimer:</b> I HAVE NEITHER DETECTED NOR DISCLOSED THE GENDER OF THE FETUS TO ANYBODY IN ANY MANNER. FINDINGS DEPEND ON FETAL POSITION, ADEQUACY OF LIQUOR AND PERIOD OF GESTATION.
-    </div>
-    <div class="footer-space"></div>
-</div>
-
-<script>
-    function toggleComments() {
-        const box = document.getElementById('commentsBox');
-        box.style.display = (box.style.display === 'block') ? 'none' : 'block';
-    }
-
-    function checkPlacenta(val) {
-        const segment = document.getElementById('placentaSegment');
-        if (val === 'Placental') {
-            segment.style.display = 'inline-block';
-        } else {
-            segment.style.display = 'none';
-        }
-    }
-
-    function moveDot(id, val) {
-        const dot = document.getElementById('dot-' + id);
-        if(dot) {
-            dot.style.left = Math.min(Math.max(val, 0), 100) + '%';
-        }
-    }
-
-    function calculateDates() {
-        const lmpValue = document.getElementById('lmpDate').value;
-        if (!lmpValue) return;
-        const lmp = new Date(lmpValue);
-        
-        const edd = new Date(lmp);
-        edd.setMonth(edd.getMonth() + 9);
-        edd.setDate(edd.getDate() + 7);
-        const eddFormatted = edd.toISOString().split('T')[0];
-        document.getElementById('lmpEdd').value = eddFormatted;
-        document.getElementById('cedd').value = eddFormatted;
-        document.getElementById('impEdd').value = eddFormatted;
-
-        const today = new Date();
-        const diffTime = today - lmp;
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        if(diffDays < 0) return;
-        const weeks = Math.floor(diffDays / 7);
-        const days = diffDays % 7;
-
-        document.getElementById('gaWeeks').value = weeks;
-        document.getElementById('gaDays').value = days;
-        document.getElementById('gaWeeks2').value = weeks;
-        document.getElementById('gaDays2').value = days;
-        document.getElementById('impWeeks').value = weeks;
-        document.getElementById('impDays').value = days;
-    }
-</script>
-
-</body>
-</html>
